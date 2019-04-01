@@ -1,8 +1,6 @@
 $('#add-row').click(function(){
     // TODO: File da scaricare 
-    // TODO: Contatore delle persona selezionate
-    // TODO: Aggiungi barra di caricamento per operazioni pesanti (load da excel, checkall e unchackall)
-    // TODO: Metti combobox per la selezione di sesso e chip
+    // TODO: Aggiungi barra di caricamento per operazioni pesanti (load da excel, checkall e unchackall)    
 
     var obj = {
         Selez:              false,
@@ -200,5 +198,5 @@ $('#uncheckAll').click(function () {
 })
 
 $('#save').click(()=>{
-    
+
 })
