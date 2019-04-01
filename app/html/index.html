@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="..\..\node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="..\..\node_modules/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="..\css\util.css">
+    <link href="..\..\node_modules/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet">
+    <!--link href="..\editable/css/bootstrap-editable.css" rel="stylesheet"-->
+    <link href="..\..\node_modules/x-editable/dist/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
+    <title>Races Manager</title>
+  </head>
+  <body>
+    <script>
+      window.$ = window.jQuery = require("jquery")  
+    </script>
+    <script src="..\..\node_modules/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    <script src="..\..\node_modules/bootstrap-table/dist/extensions/editable/bootstrap-table-editable.min.js"></script>
+    <cript src="..\..\node_modules/x-editable/dist/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+
+
+
+    <div class="container-fluid">
+
+
+
+      <!-- Scegli file -->
+      <input type="file" class="custom-file-input" style="height:0px;" id="inputGroupFile01">
+
+      <!-- CARD -->
+      <div class="card">
+        <!-- CARD HEADER -->
+        <div class="card-header">
+          <div class="row text-left">
+            <div class="col-4">
+              <h1 style="padding-left: 0.5em;">Races Manager</h1>
+            </div>
+            <div class="col-8">
+              <div class="row text-right">
+                <!-- SCEGLI FILE -->
+                <div class="custom-file" style="padding-right:2em; padding-top: 0.5em;">
+                  <!--Aggiungi manualmente-->
+                  <button id="add-person" type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#add-modal">
+                    <i class="fa fa-plus"></i> Aggiungi manualmente</label>
+                  </button>
+                  <!--Aggiungi XLS-->
+                  <button id="load-file" type="button" class="btn btn-success btn-sm">
+                    <i class="fa fa-file-excel-o"></i> Carica file Excel</label>
+                  </button>
+
+                  
+                  <!--APRI-->
+                  <!--button id="load-file-bici" type="button" class="btn btn-success btn-sm">
+                    <i class="fa fa-folder-open"></i> Apri</label>
+                  </button-->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> <!-- /CARD HEADER -->
+        <div class="card-body"> <!-- CARD BODY -->
+          <div class="buttons-toolbar"></div>
+          <div class="scrollable">
+              <div class="toolbar">
+                  <button id="checkAll" class="btn btn-secondary">Seleziona tutto</button>
+                  <button id="uncheckAll" class="btn btn-secondary">Deseleziona tutto </button>
+                </div>
+            <table id="table" >
+              <thead>
+                <!--tr id="header" class="thead-light">
+                    <th data-field="Selez" data-checkbox="true"></th>
+                    <th data-field="Nome" data-sortable="true" data-editable="true" data-editable-type="text">Nome</th>
+                    <th data-field="Cognome" data-sortable="true">Cognome</th>
+                    <th data-field="Sesso" data-sortable="true">Sesso</th>
+                    <th data-field="DataNascita" data-sortable="true">Data di Nascita</th>
+                    <th data-field="CodFis" data-sortable="true">Codice Fiscale</th>
+                    <th data-field="Numero" data-sortable="true">Tessera</th>
+                    <th data-field="Codice" data-sortable="true">Codice Società</th>
+                    <th data-field="IDSodalizio" data-sortable="true">Nome Società</th>
+                    <th data-field="Chip">Chip</th>
+                    <th data-field="id" data-visible="false"></th>
+                </tr-->
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div> <!-- /CARD BODY -->
+        <div class="card-footer"> <!-- CARD FOOTER -->
+          <div style="float:left;">
+            <div class="row text-left">
+              <!--Scarica file presenze in gara-->
+              <button id="mysdam" class="btn btn-primary btn-sm" >
+                  <i class="fa fa-download"></i>
+                    Scarica file Mysdam
+                </button>
+                <!--Salva il file delle rpesenze (modello nella mail del 14 marzo)-->
+                <button id="classifica" class="btn btn-primary btn-sm" >
+                  <i class="fa fa-download"></i>
+                    Scarica file Classifica per squadre 
+                </button>
+                <button id="eventi" class="btn btn-primary btn-sm" >
+                  <i class="fa fa-download"></i>
+                    Scarica file Eventi giornaliero
+                </button> 
+
+
+              <button id="eventi-squadra" class="btn btn-primary btn-sm" >
+                <i class="fa fa-download"></i>
+                  Scarica file Eventi per squadra
+                  <!--TODO: Fallo per un songolo  [Cognome, Nome, Data nascita, Codice fiscale, Codice fiscale società]-->
+              </button>
+
+              <!--TODO: L'EXE NON SALVA LA TABELLA-->
+
+              <!--Salva la tabella in locale-->
+              <!--button id="save-table" class="btn btn-primary btn-sm">
+                <i class="fa fa-save"></i>
+                  Salva tabella con Nome
+              </button-->
+              <button id="save" class="btn btn-primary btn-sm">
+                  <i class="fa fa-save"></i>
+                    Salva tabella
+                </button>
+            </div>
+                <!--Salva la tabella in locale-->
+              <div class="row text-right">
+                <div>Righe selezionate: </div><div id="selected-rows"></div>
+              </div>
+              <div class="row text-right">
+                <div >Chip: </div><div id="chip-rows"></div>
+              </div>
+                
+          </div>          
+        </div> <!-- /CARD FOOTER -->
+      </div><!-- /CARD-->
+    </div>
+
+
+    <!-- Modal aggiungi corridore -->
+<div class="modal fade bd-example-modal-lg" id="add-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Inserisci nuovo utente</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row" style="padding: 1em">
+            <div class="col-lg-6">
+                <label for="cognome">Cognome:</label>
+                <input type="text" class="form-control" id="cognome" placeholder="Cognome">
+            </div>
+            <div class="col-lg-6">
+                <label for="nome">Nome:</label>
+                <input type="text" class="form-control" id="nome" placeholder="Nome">
+            </div>
+          </div>
+          <div class="row" style="padding: 1em">
+            <div class="col-lg-6">
+                <label for="sesso">Sesso:</label>
+                <select class="form-control" id="sesso">
+                    <option>Seleziona...</option>
+                    <option>M</option>
+                    <option>F</option>
+                </select>
+            </div>
+            <div class="col-lg-6">
+              <label for="data">Data di nascita:</label>
+              <input type="text" class="form-control" id="data" placeholder="GG/MM/AAAA">
+            </div>
+          </div>
+          <div class="row" style="padding: 1em">
+            <div class="col-lg-6">
+              <label for="cf">Codice Fiscale:</label>
+              <input type="text" class="form-control" id="cf" placeholder="Codice Fiscale">
+            </div>
+            <div class="col-lg-6">
+              <label for="cf">Codice Tessera:</label>
+              <input type="text" class="form-control" id="tessera" placeholder="Codice Tessera">
+            </div>
+          </div>
+          <div class="row" style="padding: 1em">
+            <div class="col-lg-6">
+              <!--TODO: Aggiungi il suggerimento di una stringa-->
+              <label for="codice-soc">Codice Società:</label>
+              <input type="text" class="form-control" id="codice-soc" placeholder="Codice Società">
+            </div>
+            <div class="col-lg-6">
+                <label for="nome-soc">Nome della società:</label>
+                <input type="text" class="form-control" id="nome-soc" placeholder="Nome della società">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"> <i class="fa fa-times"></i> Chiudi</button>
+          <button type="button" class="btn btn-primary" id="add-row"><i class="fa fa-plus"></i> Aggiungi</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal-title-edit"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="modal-body-edit">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+          <button type="button" id="btn-edit" class="btn btn-primary">Salva modifica</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal-select-team" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-title-team">Seleziona squadra:</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="modal-body-team">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+            <button type="button" id="btn-team" class="btn btn-primary">Seleziona</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal-add-excel" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Inserire codice e nome della squadra:</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <!--TODO: Aggiungi il suggerimento di una stringa-->
+                  <label for="codice-soc">Codice Società:</label>
+                  <input type="text" class="form-control" id="codice-soc-excel" placeholder="Codice Società">
+                </div>
+                <div class="col-lg-6">
+                    <label for="nome-soc">Nome della società:</label>
+                    <input type="text" class="form-control" id="nome-soc-excel" placeholder="Nome della società">
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+              <button type="button" id="btn-add-excel" class="btn btn-primary">Seleziona</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    <script type="text/javascript" src="..\dependencies.js"></script>
+    <script type="text/javascript" src="..\table.js"></script>
+    <script type="text/javascript" src="..\excelManager.js"></script>
+
+
+  </body>
+</html>
