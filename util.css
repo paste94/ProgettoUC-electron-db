@@ -1,0 +1,26 @@
+
+tr.selected {
+    background-color: #ffee58;
+}
+
+tr.selected:hover{
+    background-color: #eada49 !important;
+}
+
+tr{
+    transition: 0.5s;
+}
+
+.btn-primary{
+    margin: 0.2em;
+}
+
+[type=checkbox]{
+    height: 1.3em;
+    width: 1.3em;
+}
+
+[class=remove]{
+    height: 1.3em;
+    width: 1.3em;
+}
