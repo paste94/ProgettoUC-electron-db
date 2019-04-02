@@ -25,6 +25,15 @@ function createWindow () {
       })
     }
   }
+
+  // delete main window on close
+  win.on('closed', function () {
+      win = null
+  })
+
 }
 
 app.on('ready', createWindow)
+
+// when all the windows are closed, quit the process
+app.on('window-all-closed', () => { app.quit() })

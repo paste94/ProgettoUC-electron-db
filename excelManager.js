@@ -3,7 +3,7 @@ const {dialog} = require("electron").remote;
 const db = require('electron-db')
 require('bootstrap-table');
 const fs = require("fs");
-const { app, BrowserWindow } = require("electron");
+//const { app, BrowserWindow } = require("electron");
 require('bootstrap');
 
 
