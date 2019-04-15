@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="jqdialog-master/jqdialog.css"/>
     <link rel="stylesheet" href="util.css">
     <link href="node_modules/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet">
     <!--link href="..\editable/css/bootstrap-editable.css" rel="stylesheet"-->
     <link href="node_modules/x-editable/dist/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
+    <script type="text/javascript" src="jqdialog-master/jquery.min.js"></script>
+    <script type="text/javascript" src="jqdialog-master/jqdialog.min.js"></script>
     <title>Races Manager</title>
   </head>
   <body>
-   <div class="container-fluid">
-
+  <div class="container-fluid">
     <script>
       window.$ = window.jQuery = require("jquery")  
     </script>
@@ -50,14 +52,17 @@
           </div>
 
             </div>
-          </div>
         </div> <!-- /CARD HEADER -->
         <div class="card-body"> <!-- CARD BODY -->
-          <div class="buttons-toolbar"></div>
+          <div class="buttons-toolbar">
+          </div>
           <div class="scrollable">
-              <div class="toolbar">
+              <div id="toolbar" style="padding-bottom: 15px">
                   <button id="checkAll" class="btn btn-secondary">Seleziona tutto</button>
                   <button id="uncheckAll" class="btn btn-secondary">Deseleziona tutto </button>
+                  <button id="remove" class="btn btn-danger">
+                      <i class="fa fa-trash"></i> Elimina
+                  </button>
                 </div>
             <table id="table" >
               <thead>
@@ -112,10 +117,10 @@
                 <i class="fa fa-save"></i>
                   Salva tabella con Nome
               </button-->
-              <button id="save" class="btn btn-primary btn-sm">
+              <!--button id="save" class="btn btn-primary btn-sm">
                   <i class="fa fa-save"></i>
                     Salva tabella
-                </button>
+                </button-->
             </div>
                 <!--Salva la tabella in locale-->
               <div class="row text-right">
@@ -128,6 +133,8 @@
           </div>          
         </div> <!-- /CARD FOOTER -->
       </div><!-- /CARD-->
+      
+    </div>
     </div>
 
 

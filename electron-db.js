@@ -10,7 +10,7 @@ const os = require('os');
 
 const platform = os.platform();
 
-let appName = '';
+let appName = 'progettouc-electron-db';
 /*
 if (JSON.parse(fs.readFileSync('package.json', 'utf-8')).productName) {
   appName = JSON.parse(fs.readFileSync('package.json', 'utf-8')).productName;
@@ -21,7 +21,7 @@ if (JSON.parse(fs.readFileSync('package.json', 'utf-8')).productName) {
 //console.log('appName: ' + appName)
 
 let userData = '';
-
+/*
 if (platform === 'win32') {
   userData = path.join(process.env.APPDATA, appName);
 } else if (platform === 'darwin') {
@@ -29,7 +29,7 @@ if (platform === 'win32') {
 } else {
   userData = path.join('var', 'local', appName);
 }
-
+*/
 
 /**
  * Create a table | a json file
@@ -41,6 +41,7 @@ if (platform === 'win32') {
  */
 // function createTable(tableName, callback) {
 function createTable() {
+    console.log('ssskskskskskskkssks')
   tableName = arguments[0];
   var fname = '';
   var callback;
