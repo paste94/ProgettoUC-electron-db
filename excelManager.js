@@ -10,8 +10,8 @@ require('bootstrap');
 var dataArray;
 
 var dbName = 'database';
-var dbPath = '.\\resources\\app\\';
-//var dbPath = '.\\';
+//var dbPath = '.\\resources\\app\\';
+var dbPath = '.\\';
 
 db.getAll('customers', (succ, data) => {
     dataArray = data;
@@ -37,6 +37,7 @@ tableOpts = {
   selectItemName: 'selectItemName',
   buttonsToolbar: '.buttons-toolbar',
   showColumns: true,
+  dataCache: false,
   trimOnSearch: false,
   columns: [{
       field: 'Selez',
@@ -80,6 +81,10 @@ tableOpts = {
       title: 'Data di Nascita',
       sortable:true
   },{
+      field: 'LuogoNascita',
+      title: 'Luogo di Nascita',
+      sortable:true
+  },{
       field: 'CodFis',
       title: 'Codice Fiscale',
       sortable:true
@@ -105,33 +110,53 @@ tableOpts = {
   },
   
   customSearch: function(data, text){
-    
-    ret = []
-    colName = Object.keys(data[0])
-    text = text.toLowerCase()
-    textArray = text.split(" ")
-    console.log(textArray)
-
-    textArray.forEach(function(word){
-      colName.forEach(function(col){
-        ret = ret.concat(
-          data.filter(function(row){
-            return String(row[col]).toLowerCase().indexOf(word) > -1
-          })
-        )
+    console.log(data)
+    if(data.length>0){
+      ret = []
+      colName = Object.keys(data[0])
+      text = text.toLowerCase()
+      textArray = text.split(" ")
+      console.log(textArray)
+      /*
+      textArray.forEach(function(word){
+        colName.forEach(function(col){
+          ret = ret.concat(
+            data.filter(function(row){
+              //console.log(String(row[col]).toLowerCase().indexOf(word) > -1)
+              return String(row[col]).toLowerCase().indexOf(word) > -1
+            })
+          )
+        })
       })
-    })
-    
-    uniq = [...new Set(ret)];
-    console.log(uniq)
+      */
+      
+      ret = ret.concat(
+        data.filter(function(row){
+          //La variabile trovata serve a indicare quante parole ho trovato. Ogni volta che 
+          //trovo una parola in una colonna aumento questo contatore. 
+          //Alla fine, se il contatore è uguale al numero di parole da 
+          //cercare è perchè le ho trovate tutte!
+          var trovata = 0 
+          textArray.forEach(function(word){
+            colName.forEach(function(col){
+              if(String(row[col]).toLowerCase().indexOf(word) > -1){
+                trovata++
+              }
+            })
+          })
+          
+          console.log(trovata)
 
-    return uniq
-    
-    /*
-    return data.filter(function (row){
-      return row.field.indexOf(text) > -1 
-    })
-    */
+          return trovata >= textArray.length
+        })
+      )
+      
+      uniq = [...new Set(ret)];
+      console.log(uniq)
+
+      return uniq
+    }
+    return null
   },
   
   onCheck: function(row, element){
@@ -217,8 +242,15 @@ $('#btn-add-excel').click(()=>{
 
 // Crea la tabella  partire dal file excel
 function loadElements(jsonObjFromTable){
+  console.log('load')
   jsonObjFromTable.forEach(element => { 
     if(element.Numero != 0){
+      db.deleteRow(dbName, dbPath, 
+        where = {
+          CodFis: element.CodFis
+        },
+        (succ, result)=>{}
+      )
       var o = {
         Selez: false,
         Elimina: false,
@@ -233,11 +265,9 @@ function loadElements(jsonObjFromTable){
         Chip: false
       }
       db.insertTableContent(dbName, dbPath, o, (succ, msg) => {})
-
-
-      location.reload(true);
     }
   });
+  location.reload(true);
 }
 
 // MYSDAM
@@ -445,6 +475,7 @@ $('#add-row').click(function(){
       Nome:               $('#nome').val(),
       Sesso:              $('#sesso').val(),
       DataNascita:        $('#data').val(),
+      LuogoNascita:       $('#luogo').val(),
       CodFis:             $('#cf').val(),
       Numero:             $('#tessera').val(),
       Codice:             $('#codice-soc').val(),
@@ -459,9 +490,24 @@ $('#add-row').click(function(){
           alert(msg);
       }
   })
+  
+  
 
   $('#add-modal').modal('toggle')
 })
+
+//Metti a bianco tutte le caselle del modal
+$('#add-modal').on('hidden.bs.modal', function() { 
+  $('#code').modal('hide');
+  $('#cognome').val('')
+  $('#nome').val('')
+  $('#sesso').val('Sel...')
+  $('#data').val('')
+  $('#cf').val('')
+  $('#tessera').val('')
+  $('#codice-soc').val('')
+  $('#nome-soc').val('')
+});
 
 // Cosa succede quando selezioni la riga
 function check(row, val){
@@ -562,7 +608,7 @@ $('#btn-edit').click(()=>{
 
 })
 
-// Definisce la colonna Opt
+
 function formatDelete(value, row, index) {
   return [
     '<a class="remove" href="javascript:void(0)" title="Remove">',
@@ -603,12 +649,19 @@ function formatDelete(value, row, index) {
 
 // Indica cosa succede quando un elemento elimina viene selezionato
 function deleteCheck(element, rowId){
+  newCheck = ''
+  if(element.checked){
+    newCheck = '<input type="checkbox" onClick="deleteCheck(this, ' + rowId + ')" checked>'
+  }else{
+    newCheck = '<input type="checkbox" onClick="deleteCheck(this, ' + rowId + ')">'
+  }
   db.updateRow(dbName, dbPath, 
       where = {'id': rowId},
       set = {Elimina: element.checked},
       (succ,msg)=>{
-          console.log(msg)
+        $('#table').bootstrapTable('refresh', {'silent': 'true'})
       })
+  
 }
 
 // Indica cosa succede quando un elemento chip viene selezionato
@@ -625,7 +678,7 @@ function chipCheck(element, rowId){
       where = {'id': rowId},
       set = {Chip: element.checked},
       (succ,msg)=>{
-          console.log(msg)
+        $('#table').bootstrapTable('refresh', {'silent': 'true'})
       })
 }
 
