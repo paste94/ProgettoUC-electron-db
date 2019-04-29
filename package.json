@@ -24,6 +24,7 @@
   "dependencies": {
     "bootstrap": "^4.3.1",
     "bootstrap-table": "^1.14.2",
+    "calcolo-codice-fiscale": "^1.1.33",
     "electron-db": "^0.10.2",
     "font-awesome": "^4.7.0",
     "fs": "0.0.1-security",

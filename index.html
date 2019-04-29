@@ -129,11 +129,12 @@
               <div class="row text-right">
                 <div >Chip: </div><div id="chip-rows"></div>
               </div>
-                
           </div>          
         </div> <!-- /CARD FOOTER -->
       </div><!-- /CARD-->
-      
+      <p>
+        <button id="credits" type="button" class="btn btn-link">Credits</button>
+      </p>
     </div>
     </div>
 
@@ -168,20 +169,39 @@
                     <option>F</option>
                 </select>
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-4">
               <label for="data">Data di nascita:</label>
               <input type="text" class="form-control" id="data" placeholder="GG/MM/AAAA">
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-6">
               <label for="data">Luogo di nascita:</label>
-              <input type="text" class="form-control" id="luogo" placeholder="Luogo di nascita">
+              <!--input type="text" class="form-control" id="luogo" placeholder="Luogo di nascita"-->
+              <div class="input-group">
+                  <input type="text" id="comune" placeholder="Comune" class="form-control">
+                  <input type="text" id="prov" placeholder="Prov (sigla)" class="form-control">
+              </div>
             </div>
           </div>
           <div class="row" style="padding: 1em">
+
+
+
+
+
             <div class="col-lg-6">
               <label for="cf">Codice Fiscale:</label>
-              <input type="text" class="form-control" id="cf" placeholder="Codice Fiscale">
+              <!--input type="text" class="form-control" id="cf" placeholder="Codice Fiscale"-->
+              <div class="input-group mb-3">
+                <input type="text" id="cf" class="form-control" placeholder="Codice Fiscale" aria-label="" aria-describedby="basic-addon1">
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-secondary" id="calcola-cf" type="button">Calcola</button>
+                  <button class="btn btn-outline-secondary" id="calcola-cf-info" type="button">?</button>
+                </div>
+              </div>
             </div>
+
+
+
             <div class="col-lg-6">
               <label for="cf">Codice Tessera:</label>
               <input type="text" class="form-control" id="tessera" placeholder="Codice Tessera">
@@ -191,7 +211,7 @@
             <div class="col-lg-6">
               <!--TODO: Aggiungi il suggerimento di una stringa-->
               <label for="codice-soc">Codice Società:</label>
-              <input type="text" class="form-control" id="codice-soc" placeholder="Codice Società">
+              <input type="text" class="form-control" id="codice-soc" default="-" placeholder="Codice Società">
             </div>
             <div class="col-lg-6">
                 <label for="nome-soc">Nome della società:</label>
@@ -275,6 +295,31 @@
           </div>
         </div>
       </div>
+
+
+      <div class="modal fade" id="modal-credits" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-center" style="margin: 0 auto;">Credits</h5>
+              </div>
+              <div class="modal-body">
+                  <p style="text-align:center">
+                    Versione 1.0 <br>
+                    Autore: Riccardo Pasteris <br>
+                    Email: <a href="mailto:94paste94@gmail.com" style="font-size: 100%;" class="badge badge-light">94paste94@gmail.com</a> <br>
+                    Progetto sviluppato per conto di UC Cigliano: <a href="http://www.uc-cigliano.it/" target="_blank" style="font-size: 100%;" class="badge badge-light">www.uc-cigliano.it</a> 
+                  </p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
       <script type="text/javascript" src="excelManager.js"></script>
       
 

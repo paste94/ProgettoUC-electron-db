@@ -2,6 +2,7 @@ var jsonObjFromTable;
 const {dialog} = require("electron").remote;
 const db = require('./electron-db')
 require('bootstrap-table');
+var codFis = require('calcolo-codice-fiscale');
 const fs = require("fs");
 //const { app, BrowserWindow } = require("electron");
 require('bootstrap');
@@ -10,8 +11,8 @@ require('bootstrap');
 var dataArray;
 
 var dbName = 'database';
-//var dbPath = '.\\resources\\app\\';
-var dbPath = '.\\';
+var dbPath = '.\\resources\\app\\';
+//var dbPath = '.\\';
 
 db.getAll('customers', (succ, data) => {
     dataArray = data;
@@ -110,13 +111,13 @@ tableOpts = {
   },
   
   customSearch: function(data, text){
-    console.log(data)
+    //console.log(data)
     if(data.length>0){
       ret = []
       colName = Object.keys(data[0])
       text = text.toLowerCase()
       textArray = text.split(" ")
-      console.log(textArray)
+      //console.log(textArray)
       /*
       textArray.forEach(function(word){
         colName.forEach(function(col){
@@ -145,14 +146,14 @@ tableOpts = {
             })
           })
           
-          console.log(trovata)
+          //console.log(trovata)
 
           return trovata >= textArray.length
         })
       )
       
       uniq = [...new Set(ret)];
-      console.log(uniq)
+      //console.log(uniq)
 
       return uniq
     }
@@ -211,20 +212,20 @@ $('#load-file').click(function(){
     jsonObjFromTable = XLSX.utils.sheet_to_json(worksheet, {dateNF:'YYYY-MM-DD'})
 
     var keys = Object.keys(jsonObjFromTable[0])
-    console.log(keys.indexOf("cf sodalizio") > -1)
+    //console.log(keys.indexOf("cf sodalizio") > -1)
     if(keys.indexOf("cf sodalizio") > -1){
       jsonObjFromTable.forEach((elem)=>{
         elem.Codice = elem['cf sodalizio']
       })
     }
 
-    console.log(jsonObjFromTable)
+    //console.log(jsonObjFromTable)
 
 
     if(jsonObjFromTable[0].Codice == 0){
       $('#modal-add-excel').modal('toggle') // Riferimento al listener di btn-add-excel
     }else{
-      console.log('okokokokokokokokookokok')
+      //('okokokokokokokokookokok')
       loadElements(jsonObjFromTable)
     }
 })// Fine carica file XLS
@@ -324,7 +325,7 @@ $('#classifica').click(function(){
 
   var counts = {};
   arrayCodici.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
-  console.log(counts)
+  //console.log(counts)
 
   var jsonObj = [];
 
@@ -344,7 +345,7 @@ $('#classifica').click(function(){
       jsonObj.push(o)
     }
   })
-  console.log(jsonObj)
+  //console.log(jsonObj)
   scaricaExcel(jsonObj)
 })
 
@@ -475,7 +476,7 @@ $('#add-row').click(function(){
       Nome:               $('#nome').val(),
       Sesso:              $('#sesso').val(),
       DataNascita:        $('#data').val(),
-      LuogoNascita:       $('#luogo').val(),
+      LuogoNascita:       $('#comune').val() + '(' + $('#prov').val() + ')',
       CodFis:             $('#cf').val(),
       Numero:             $('#tessera').val(),
       Codice:             $('#codice-soc').val(),
@@ -483,17 +484,68 @@ $('#add-row').click(function(){
       Chip:               'No' 
   }
 
+  console.log(Object.keys(obj).length)
+
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      if(key != 'Selez' && key != 'Elimina' && obj[key] == ''){
+        obj[key] = '-'
+      }
+    }
+  }
+
   db.insertTableContent(dbName, dbPath, obj, (succ, msg) => {
       if(succ){
-          $('#table').bootstrapTable('append',obj);
+        $('#table').bootstrapTable('refresh', {'silent': 'true'})
+          //$('#table').bootstrapTable('append',obj);
       }else{
           alert(msg);
       }
   })
   
-  
-
   $('#add-modal').modal('toggle')
+})
+
+
+//Calcola Codice Fiscale in automatico
+$('#calcola-cf').click(()=>{
+  console.log(codFis)
+  nome = $('#nome').val()
+  cognome = $('#cognome').val()
+  sesso = $('#sesso').val()
+  data = $('#data').val()
+  dataArray = data.split('/')
+  giorno = parseInt(dataArray[0])
+  mese = parseInt(dataArray[1])
+  anno = parseInt(dataArray[2])
+  comune = $('#comune').val()
+  prov = $('#prov').val()
+  try{
+    var cf = codFis.CalcolaCodiceFiscale.compute({
+      name: nome,
+      surname: cognome,
+      gender: sesso,
+      day: giorno,
+      month: mese,
+      year: anno,
+      birthplace: comune, 
+      birthplace_provincia: prov
+    });
+    
+    $('#cf').val(cf)
+  }catch(err){
+    alert(err.message)
+  }
+})
+
+$('#calcola-cf-info').click(()=>{
+  str = 'Per calcolare in modo corretto il codice fiscale ecco alcune linee guida: \n'
+  str += '- Utilizzare esclusivamente il formato indicato per la data\n'
+  str += '- Assicurarsi di avere selezionato il sesso\n'
+  str += '- In caso di accenti NON utilizzare le lettere accentate ma il carattere \' (es. Cirie\')\n'
+  str += '- La sigla della provincia deve essere in MAIUSCOLO\n'
+  str += '- N.B. In alcuni (rarissimi) casi il codice fiscale potrebbe risultare differente da quello calcolato!\n'
+  alert(str)
 })
 
 //Metti a bianco tutte le caselle del modal
@@ -581,6 +633,9 @@ function editCell(field, value, row, element){
 // Listener del bottone del modal per la modifica
 $('#btn-edit').click(()=>{
   var newVal = $('#edit').val();
+  if(newVal == ''){
+    newVal = '-'
+  }
   var field = $('#edit').attr('field');
   const id = parseInt($('#edit').attr('row-id'))
   var set = {}
@@ -595,11 +650,7 @@ $('#btn-edit').click(()=>{
       set,
       (succ, msg)=>{
           if(succ){
-              $('#table').bootstrapTable('updateCellById', {
-                  'id': id,
-                  'field': field,
-                  'value': newVal
-              })
+            $('#table').bootstrapTable('refresh', {'silent': 'true'})
           }
       }
   )
@@ -803,3 +854,16 @@ function deleteRow (e, value, row, index) {
       }
   });
 }
+
+//Mostra il modal dei credits
+$('#credits').click(()=>{
+  $('#modal-credits').modal('toggle') // Riferimento al listener di btn-add-excel
+})
+
+const shell = require('electron').shell;
+
+// assuming $ is jQuery
+$(document).on('click', 'a[href^="http"]', function(event) {
+    event.preventDefault();
+    shell.openExternal(this.href);
+});
