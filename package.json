@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/paste94/ProgettoUC-v2.git"
   },
-  "author": "",
+  "author": "Riccardo Pasteris <94paste94@gmail.com> (http://paste94.com/)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/paste94/ProgettoUC-v2/issues"
@@ -25,10 +25,12 @@
     "bootstrap": "^4.3.1",
     "bootstrap-table": "^1.14.2",
     "calcolo-codice-fiscale": "^1.1.33",
-    "electron-db": "^0.10.2",
+    "electron-db": "^0.15.0",
+    "extend": "^3.0.2",
     "font-awesome": "^4.7.0",
     "fs": "0.0.1-security",
-    "jquery": "^3.3.1",
+    "gulp": "^4.0.1",
+    "jquery": "^3.4.0",
     "jsdom": "^14.0.0",
     "popper.js": "^1.14.7",
     "x-editable": "^1.5.1",
