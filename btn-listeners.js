@@ -582,4 +582,4 @@ $('#uncheck-chip').click(()=>{
     $('#table').bootstrapTable('refresh', {'silent': 'true'})
   })
 })
-//electron-packager . GestoreGareCSAIN --overwrite --icon=icons/bike-ico.ico
+//electron-packager . GestoreGareCSAIN --overwrite --icon=icons/bike-ico.ico --asar

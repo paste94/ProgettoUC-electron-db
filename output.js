@@ -119,6 +119,8 @@ function generateSquadre(){
         o.Nome = e.Nome
         o['Data di Nascita'] = e.DataNascita
         o['Codice Fiscale'] = e.CodFis
+        o['Codice Società'] = e.Codice
+        o['Nome Società'] = e.IDSodalizio
         jsonObj.push(o); // Stringa json che rappresenta la riga
     })
     $('#modal-select-team').modal('toggle')
