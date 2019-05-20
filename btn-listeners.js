@@ -1,5 +1,10 @@
+//TODO: Aggiungi file delle squadre con CF
+//TODO: Aggiungi progressbar
+
 // Carica file XLS
 $('#load-file').click(input.loadExcelFile)
+
+// TODO: Carica file dei codici fiscali delle squadre
 
 // Carica file excel non società vercelli
 $('#btn-add-excel').click(input.loadExcelFromModal)
@@ -438,7 +443,7 @@ function chipCheck(element, rowId){
 }
 
 // Seleziona tutti
-$('#checkAll').click(function () {
+$('#check-all').click(function () {
   if(confirm('ATTENZIONE! Questa operazione potrebbe richiedere alcuni minuti, confermi?')){
     db.getRows(dbName, {
       Selez: false
@@ -458,13 +463,18 @@ $('#checkAll').click(function () {
 
       $('#table').bootstrapTable('refresh', {'silent': 'true'})
       alert('Operazione terminata!')
+      if(succ){
+        db.count(dbName, (succ, data)=>{
+          $('#selected-rows').html(data)
+        })
+      }
 
     })
   }
 })
 
 // Deseleziona tutti
-$('#uncheckAll').click(function () {
+$('#uncheck-all').click(function () {
   if(confirm('ATTENZIONE! Questa operazione potrebbe richiedere alcuni minuti, confermi?')){
     db.getRows(dbName, {
       Selez: true
@@ -485,6 +495,9 @@ $('#uncheckAll').click(function () {
 
       $('#table').bootstrapTable('refresh', {'silent': 'true'})
       alert('Operazione terminata!')
+      if(succ){
+        $('#selected-rows').html(0)
+      }
 
     })
   }
@@ -511,19 +524,21 @@ $('#remove').click(()=>{
   }
 
   if(confirm('ATTENZIONE: Eliminare definitivamente le righe selezionate?')){ 
+    var nChip = 0; nSelez = 0;
     del.forEach((elem) =>{
+      if(elem.Chip) nChip++;
+      if(elem.Selez) nSelez++;
       db.deleteRow(dbName, {'id': elem.id}, (succ, msg) => {
-        /*
-        if(succ){
-          $('#table').bootstrapTable('remove', {
-            field: 'id',
-            values: [elem.id]
-          })
-        }
-        */
+        
       });
     })
-  }
+    var nChipOld = parseInt($('#chip-rows').html())
+    var nSelezOld = parseInt($('#selected-rows').html())
+    $('#chip-rows').html(nChipOld - nChip)
+    $('#selected-rows').html(nSelezOld - nSelez)
+
+
+  } 
 
   //location.reload(true);
   $('#table').bootstrapTable('refresh', {'silent': 'true'})
@@ -564,6 +579,7 @@ $('#changelog').click(()=>{
   shell.openItem('changelog.txt');
 })
 
+//Deseleziona chip
 $('#uncheck-chip').click(()=>{
   db.getRows(dbName, {
     Chip: true
@@ -580,6 +596,9 @@ $('#uncheck-chip').click(()=>{
     })
 
     $('#table').bootstrapTable('refresh', {'silent': 'true'})
+    if(succ){
+      $('#chip-rows').html(0)
+    }
   })
 })
 //electron-packager . GestoreGareCSAIN --overwrite --icon=icons/bike-ico.ico --asar

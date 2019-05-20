@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="jqdialog-master/jqdialog.css"/>
+    <link rel="stylesheet" type="text/css" href="sidebar.css"/>
     <link rel="stylesheet" href="util.css">
     <link href="node_modules/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet">
     <!--link href="..\editable/css/bootstrap-editable.css" rel="stylesheet"-->
@@ -13,6 +14,8 @@
     <script type="text/javascript" src="jqdialog-master/jqdialog.min.js"></script>
     <title>Races Manager</title>
   </head>
+
+
   <body>
   <div class="container-fluid">
     <script>
@@ -21,109 +24,237 @@
     <script src="node_modules/bootstrap-table/dist/bootstrap-table.min.js"></script>
     
       <!-- Scegli file -->
-      <input type="file" class="custom-file-input" style="height:0px;" id="inputGroupFile01">
+      <!--input type="file" class="custom-file-input" style="height:0px;" id="inputGroupFile01"-->
 
-      <!-- CARD -->
-      <div class="card">
-        <!-- CARD HEADER -->
-        <div class="card-header">
-          <div class="row justify-content-between">
-            <div class="col-6">
-              <h1 style="padding-left: 0.5em;">Races Manager</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- TEMPLATE: https://bootsnipp.com/snippets/Q0dAX-->
+      <div class="page-wrapper chiller-theme toggled">
+        <a id="show-sidebar" class="btn btn-sm btn-dark" href="#" style="float:right">
+          <i class="fa fa-bars"></i>
+        </a>
+        <nav id="sidebar" class="sidebar-wrapper">
+          <div class="sidebar-content">
+            <div class="sidebar-brand">
+              <h4 style="color:#b8bfce; margin-right: 25%">Gestore Gare </h4>
+              <div id="close-sidebar">
+                <i class="fa fa-times"></i>
+              </div>
             </div>
-            <div class="col-4">
-                <!-- SCEGLI FILE -->
-                <div class="custom-file" style="padding-top: 0.5em;">
-                  <!--Aggiungi manualmente-->
-                  <button id="add-person" type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#add-modal">
-                    <i class="fa fa-plus"></i> Aggiungi manualmente</label>
-                  </button>
+            <div class="sidebar-menu">
+              <ul>
+                <li class="header-menu">
+                  <span>Carica File</span>
+                </li>
+                <li>
                   <!--Aggiungi XLS-->
-                  <button id="load-file" type="button" class="btn btn-success btn-sm">
-                    <i class="fa fa-file-excel-o"></i> Carica file Excel</label>
+                  <button id="load-file" type="button" class="btn btn-primary-outline text-left btn-sidebar-style">
+                    <i class="fa fa-file-excel-o icon-border"></i> Carica file Excel
                   </button>
-
-                  
-                  <!--APRI-->
-                  <!--button id="load-file-bici" type="button" class="btn btn-success btn-sm">
-                    <i class="fa fa-folder-open"></i> Apri</label>
-                  </button-->
-                </div>
-          </div>
-
-            </div>
-        </div> <!-- /CARD HEADER -->
-        <div class="card-body"> <!-- CARD BODY -->
-          <div class="buttons-toolbar">
-          </div>
-          <div class="scrollable">
-              <div id="toolbar" style="padding-bottom: 15px">
-                  <button id="checkAll" class="btn btn-secondary">Seleziona tutto</button>
-                  <button id="uncheckAll" class="btn btn-secondary">Deseleziona tutto </button>
-                  <button id="uncheck-chip" class="btn btn-secondary">Deseleziona CHIP </button>
-                  <button id="remove" class="btn btn-danger">
-                      <i class="fa fa-trash"></i> Elimina
+                </li>
+                <li>
+                  <!--TODO-->
+                  <button id="add-team-cf" type="button" class="btn btn-primary-outline text-left btn-sidebar-style">
+                    <i class="fa fa-file-excel-o icon-border"></i>  Aggiungi cf squadre
                   </button>
-                </div>
-            <table id="table" >
-              <thead>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-          </div>
-        </div> <!-- /CARD BODY -->
-        <div class="card-footer"> <!-- CARD FOOTER -->
-          <div style="float:left;">
-            <div class="row text-left">
-              <!--Scarica file presenze in gara-->
-              <button id="mysdam" class="btn btn-primary btn-sm" >
-                  <i class="fa fa-download"></i>
-                    Scarica file Mysdam
-                </button>
-                <!--Salva il file delle rpesenze (modello nella mail del 14 marzo)-->
-                <button id="classifica" class="btn btn-primary btn-sm" >
-                  <i class="fa fa-download"></i>
-                    Scarica file Classifica per squadre 
-                </button>
-                <button id="eventi" class="btn btn-primary btn-sm" >
-                  <i class="fa fa-download"></i>
-                    Scarica file Eventi giornaliero
-                </button> 
-
-
-              <button id="eventi-squadra" class="btn btn-primary btn-sm" >
-                <i class="fa fa-download"></i>
-                  Scarica file Eventi per squadra
-              </button>
-
-              <button id="mostra-db" class="btn btn-primary btn-sm" >
-                <i class="fa fa-database"></i>
-                  Mostra DB
-              </button>
-
+                </li>
+                <li>
+                  <!--Aggiungi persona manualmente-->
+                  <button id="add-person" type="button" class="btn btn-primary-outline text-left btn-sidebar-style" data-toggle="modal" data-target="#add-modal">
+                    <i class="fa fa-plus icon-border"></i>  Aggiungi manualmente
+                  </button>
+                </li>
+                <li class="header-menu">
+                  <span>Genera File</span>
+                </li>
+                <li>
+                  <!--Scarica file presenze in gara-->
+                  <button id="mysdam" type="button" class="btn btn-primary-outline text-left btn-sidebar-style">
+                    <i class="fa fa-download icon-border"></i> Scarica file MYSDAM
+                  </button>
+                </li>
+                <li> 
+                  <!--Aggiungi persona manualmente-->
+                  <button id="classifica" type="button" class="btn btn-primary-outline text-left btn-sidebar-style">
+                    <i class="fa fa-download icon-border"></i>  Classifica per squadre 
+                  </button>
+                </li>
+                <li>
+                  <!--Scarica file eventi-->
+                  <button id="eventi" type="button" class="btn btn-primary-outline text-left btn-sidebar-style" >
+                    <i class="fa fa-download icon-border"></i> Eventi giornaliero
+                  </button> 
+                </li>
+                <li>
+                  <!--Scarica file eventi diviso per squadre-->
+                  <button id="eventi-squadra" class="btn btn-primary-outline text-left btn-sidebar-style" >
+                    <i class="fa fa-download icon-border"></i> Eventi per squadre
+                  </button>
+                </li>
+                <li class="header-menu">
+                  <span>Gestisci tabella</span>
+                </li>
+                <li>
+                  <button id="check-all" class="btn btn-primary-outline text-left btn-sidebar-style">
+                      <i class="fa fa-check icon-border"></i> Seleziona tutti
+                  </button>
+                </li>
+                <li>
+                  <button id="uncheck-all" class="btn btn-primary-outline text-left btn-sidebar-style">
+                      <i class="fa fa-check icon-border"></i> Deseleziona tutti
+                  </button>
+                </li>
+                <li>
+                  <button id="uncheck-chip" class="btn btn-primary-outline text-left btn-sidebar-style">
+                      <i class="fa fa-check icon-border"></i> Deseleziona CHIP
+                  </button>
+                </li>
+                <li>
+                  <button id="mostra-db" class="btn btn-primary-outline text-left btn-sidebar-style" >
+                    <i class="fa fa-database icon-border"></i>Mostra DB
+                  </button>
+                </li>
+                <li>
+                  <button id="remove" style="color:#f44336" class="btn btn-primary-outline text-left btn-sidebar-style">
+                      <i class="fa fa-trash icon-border"></i> Elimina selezionati
+                  </button>
+                </li>
+              </ul>
             </div>
-                <!--Salva la tabella in locale-->
-              <div class="row text-right">
-                <div>Righe selezionate: </div><div id="selected-rows"></div>
-              </div>
-              <div class="row text-right">
-                <div >Chip: </div><div id="chip-rows"></div>
-              </div>
-          </div>          
-        </div> <!-- /CARD FOOTER -->
-      </div><!-- /CARD-->
-      <p>
-        <button id="credits" type="button" class="btn btn-link">Credits</button>
-      </p>
-    </div>
-    </div>
+            <div class="sidebar-menu">
+              <ul>
+                <li class="header-menu" style="margin-top: 15px">
+                  <div class="row" style="margin-left:15px; margin-right: 0px">
+                    <div class="col-8 selected-val">Righe selezionate: </div><div id="selected-rows" class="col-2 selected-val"></div>
+                  </div>
+                </li>
+                <li>
+                    <div class="row" style="margin-left:15px; margin-right: 0px; margin-bottom: 5px">
+                        <div class="col-8 selected-val">Chip selezionati: </div><div id="chip-rows" class="col-2 selected-val"></div>
+                      </div>
+                </li>
+              </ul>
+            </div>
+            <div class="sidebar-menu">
+              <ul>
+                <li>
+                  <button id="credits" style="margin-top: 8px" type="button" class="btn btn-primary-outline text-left btn-sidebar-style">
+                    <i class="fa fa-code icon-border"></i>Credits</button>
+                </li>
+                
+                
+
+                
+
+
+
+
+                <!-- DROPDOWN DI ESEMPIO-->
+                <!--li class="sidebar-dropdown">
+                  <a href="#">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span>E-commerce</span>
+                    <span class="badge badge-pill badge-danger">3</span>
+                  </a>
+                  <div class="sidebar-submenu">
+                    <ul>
+                      <li>
+                        <a href="#">Products
+      
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">Orders</a>
+                      </li>
+                      <li>
+                        <a href="#">Credit cart</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li-->
+            <!-- sidebar-menu  -->
+          </div>
+          <!-- sidebar-content  --> 
+        </nav>
+        <!-- sidebar-wrapper  -->
+        <main class="page-content">
+          <div class="">
+            <div class="scrollable">
+              <table id="table" >
+                <thead>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </main>
+        <!-- page-content" -->
+      </div>
+      <script type="text/javascript" src="sidebar.js"></script>
 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
 
 
 
@@ -217,8 +348,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal"> <i class="fa fa-times"></i> Chiudi</button>
           <button type="button" class="btn btn-primary" id="add-row"><i class="fa fa-plus"></i> Aggiungi</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"> <i class="fa fa-times"></i> Chiudi</button>
         </div>
       </div>
     </div>
@@ -256,8 +387,8 @@
           <div class="modal-body" id="modal-body-team">
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
             <button type="button" id="btn-team" class="btn btn-primary">Seleziona</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
           </div>
         </div>
       </div>

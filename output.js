@@ -148,7 +148,8 @@ function scaricaExcel(jsonObj){
       XLSX.utils.book_append_sheet(wb, ws, "People"); // Scrive la tabella nel file 
       XLSX.writeFile(wb, filename); // Salva il file nel percorso selezionato  
     }catch(err){
-        alert(err)
+        if(err.message != "Cannot read property 'slice' of undefined")
+            alert(err)
     }
     
 }

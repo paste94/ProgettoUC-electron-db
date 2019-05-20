@@ -17,7 +17,6 @@ tableOpts = {
     checkboxHeader: false,
     uniqueId: 'id',
     selectItemName: 'selectItemName',
-    buttonsToolbar: '.buttons-toolbar',
     showColumns: true,
     dataCache: false,
     trimOnSearch: false,

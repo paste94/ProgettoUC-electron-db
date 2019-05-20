@@ -15,6 +15,26 @@ tr{
     margin: 0.2em;
 }
 
+.btn-sidebar-style{
+    color:#818896; 
+    width: 100%;
+    border: none;
+}
+
+.btn-sidebar-style:hover{
+    color:#b8bfce; 
+    width: 100%;
+}
+
+.icon-border{
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+.selected-val{
+    color:#818896; 
+}
+
 [type=checkbox]{
     height: 1.3em;
     width: 1.3em;
@@ -23,4 +43,17 @@ tr{
 [class=remove]{
     height: 1.3em;
     width: 1.3em;
+}
+
+.footer {
+    bottom: 0px;
+    width: 100%  ;
+    height: 60px;
+    line-height: 60px;
+    background-color: #bdbdbd;
+}
+
+.btn-footer-custom{
+    float: right;
+    padding-bottom: 5px;
 }
