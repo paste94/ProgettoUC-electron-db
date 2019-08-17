@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Gestore Gare CSAIN</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/util.css" />
+    <script>
+      window.$ = window.jQuery = require('jquery');
+    </script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+
+  </head>
+
+  <body class="password-request">
+
+    <div id="card-ask-pwd" class="card text-center centered" style="width: 25rem;" >
+      <div class="card-header">
+        <h3>Prego inserire password</h3>
+      </div>
+      <div class="card-body">
+        <form id="form-ask-pwd">
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="pwd" placeholder="Password">
+          </div>
+          <button type="submit" class="btn btn-primary">Conferma</button>
+        </form>
+        <button id="change-pwd" type="button"  class="btn btn-link btn-sm">Cambia Password</button>
+        <button id="forgotten-pwd" type="button"  class="btn btn-link btn-sm">Password dimenticata?</button>
+      </div>
+    </div>
+
+    <!--Mostrato solo se non è presente una pwd già salvata!-->
+    <div id="card-new-pwd" class="card text-center centered" style="width: 25rem;" hidden>
+      <div class="card-header">
+        <h3>Scegliere nuova password</h3>
+      </div>
+      <div class="card-body">
+        <form id="form-new-pwd">
+          <label>Non è stata trovata alcuna password, impostarne una nuova per proseguire!</label>
+          <label></label>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="new-pwd" placeholder="Password">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Ripeti password</label>
+            <input type="password" class="form-control" id="new-pwd-rep" placeholder="Ripeti password">
+          </div>
+          <button type="submit" class="btn btn-primary">Conferma</button>
+        </form>
+      </div>
+    </div>
+
+    <!--Mostrato solo se per cambiare la password!-->
+    <div id="card-change-pwd" class="card text-center centered" style="width: 25rem;" hidden>
+      <div class="card-header">
+        <h3>Cambio password</h3>
+      </div>
+      <div class="card-body">
+        <form id="form-change-pwd">
+          <div class="form-group">
+            <label for="exampleInputPassword1">Vecchia password</label>
+            <input type="password" class="form-control" id="old-pwd" placeholder="Vecchia password">
+          </div>
+          <label></label>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Nuova password</label>
+            <input type="password" class="form-control" id="txt-change-pwd" placeholder="Nuova password">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Ripeti nuova password</label>
+            <input type="password" class="form-control" id="txt-change-pwd-2" placeholder="Ripeti nuova password">
+          </div>
+          <button type="submit" class="btn btn-primary">Conferma</button>
+        </form>
+        <button id="back" type="button"  class="btn btn-link btn-sm"><-- Indietro<!--Torna alla schermata di login--></button>
+      </div>
+    </div>
+
+    <script src="./js/dependencies.js"></script>
+    <script src="./js/login-manager.js"></script>
+
+  </body>
+
+
+
+</html>

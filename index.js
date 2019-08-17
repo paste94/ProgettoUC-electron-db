@@ -5,14 +5,19 @@ const os = require('os')
 const globalShortcut = electron.globalShortcut
 const debug = true;
 
-
-
 function createWindow () {
   // Create la finestra del browser
-  let win = new BrowserWindow({ width: 800, height: 600 })
+  let win = new BrowserWindow({ 
+    width: 800, 
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      devTools: true
+    } 
+  })
 
   // and load the index.html of the app.
-  win.loadFile('index.html')
+  win.loadFile('./res/index.html')
   if(debug){
     let platform = os.platform()
     if(platform === 'darwin'){

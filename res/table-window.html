@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="../jqdialog-master/jqdialog.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/sidebar.css"/>
+    <link rel="stylesheet" href="./css/util.css">
+    <link href="../node_modules/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet">
+    <!--link href="..\editable/css/bootstrap-editable.css" rel="stylesheet"-->
+    <link href="../node_modules/x-editable/dist/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
+    <script type="text/javascript" src="../jqdialog-master/jquery.min.js"></script>
+    <script type="text/javascript" src="../jqdialog-master/jqdialog.min.js"></script>
+    <title>Races Manager</title>
+  </head>
+
+
+  <body>
+  <div class="container-fluid">
+    <script>
+      window.$ = window.jQuery = require("jquery")  
+    </script>
+    <script src="../node_modules/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    
+      <!-- Scegli file -->
+      <!--input type="file" class="custom-file-input" style="height:0px;" id="inputGroupFile01"-->
+
+
+
+
+      <!-- TEMPLATE: https://bootsnipp.com/snippets/Q0dAX-->
+      <div class="page-wrapper chiller-theme toggled">
+        <a id="show-sidebar" class="btn btn-sm btn-dark" href="#" style="float:right">
+          <i class="fa fa-bars"></i>
+        </a>
+        <nav id="sidebar" class="sidebar-wrapper">
+          <div class="sidebar-content">
+            <div class="sidebar-brand">
+              <h4 style="color:#b8bfce; margin-right: 25%">Gestore Gare </h4>
+              <div id="close-sidebar">
+                <i class="fa fa-times"></i>
+              </div>
+            </div>
+            <div class="sidebar-menu">
+              <ul>
+                <li class="header-menu">
+                  <span>Carica File</span>
+                </li>
+                <li>
+                  <!--Aggiungi XLS-->
+                  <button id="load-file" type="button" class="btn btn-primary-outline text-left btn-sidebar-style">
+                    <i class="fa fa-file-excel-o icon-border"></i> Carica file Excel
+                  </button>
+                </li>
+                <li>
+                  <!--TODO-->
+                  <button id="add-team-cf" type="button" class="btn btn-primary-outline text-left btn-sidebar-style">
+                    <i class="fa fa-file-excel-o icon-border"></i>  Aggiungi cf squadre
+                  </button>
+                </li>
+                <li>
+                  <!--Aggiungi persona manualmente-->
+                  <button id="add-person" type="button" class="btn btn-primary-outline text-left btn-sidebar-style">
+                    <i class="fa fa-plus icon-border"></i>  Aggiungi manualmente
+                  </button>
+                </li>
+                <li class="header-menu">
+                  <span>Genera File</span>
+                </li>
+                <li>
+                  <!--Scarica file presenze in gara-->
+                  <button id="mysdam" type="button" class="btn btn-primary-outline text-left btn-sidebar-style">
+                    <i class="fa fa-download icon-border"></i> Scarica file MYSDAM
+                  </button>
+                </li>
+                <!--li>
+                  <Scarica file presenze in gara>
+                  <button id="generate-csain" type="button" class="btn btn-primary-outline text-left btn-sidebar-style">
+                    <i class="fa fa-download icon-border"></i> Scarica file CSAIN
+                  </button>
+                </li-->
+                <li> 
+                  <!--Aggiungi persona manualmente-->
+                  <button id="classifica" type="button" class="btn btn-primary-outline text-left btn-sidebar-style">
+                    <i class="fa fa-download icon-border"></i>  Classifica per squadre 
+                  </button>
+                </li>
+                <li>
+                  <!--Scarica file eventi-->
+                  <button id="eventi" type="button" class="btn btn-primary-outline text-left btn-sidebar-style" >
+                    <i class="fa fa-download icon-border"></i> Eventi giornaliero
+                  </button> 
+                </li>
+                <li>
+                  <!--Scarica file eventi diviso per squadre-->
+                  <button id="eventi-squadra" class="btn btn-primary-outline text-left btn-sidebar-style" >
+                    <i class="fa fa-download icon-border"></i> Eventi per squadre
+                  </button>
+                </li>
+                <li class="header-menu">
+                  <span>Gestisci tabella</span>
+                </li>
+                <li>
+                  <button id="check-all" class="btn btn-primary-outline text-left btn-sidebar-style">
+                      <i class="fa fa-check icon-border"></i> Seleziona tutti
+                  </button>
+                </li>
+                <li>
+                  <button id="check-from-file" class="btn btn-primary-outline text-left btn-sidebar-style">
+                      <i class="fa fa-check icon-border"></i> Seleziona da file
+                  </button>
+                </li>
+                <li>
+                  <button id="uncheck-all" class="btn btn-primary-outline text-left btn-sidebar-style">
+                      <i class="fa fa-check icon-border"></i> Deseleziona tutti
+                  </button>
+                </li>
+                <li>
+                  <button id="uncheck-chip" class="btn btn-primary-outline text-left btn-sidebar-style">
+                      <i class="fa fa-check icon-border"></i> Deseleziona CHIP
+                  </button>
+                </li>
+                <li>
+                  <button id="mostra-db" class="btn btn-primary-outline text-left btn-sidebar-style" >
+                    <i class="fa fa-database icon-border"></i>Mostra DB
+                  </button>
+                </li>
+                <li>
+                  <button id="restore-db" class="btn btn-primary-outline text-left btn-sidebar-style" >
+                    <i class="fa fa-history icon-border"></i>Ripristina DB
+                  </button>
+                </li>
+                <!--li>
+                  <button id="cripta" style="background: red" class="btn btn-primary-outline text-left btn-sidebar-style" >
+                    <i class="fa fa-database icon-border"></i>Cripta
+                  </button>
+                </li>
+                <li>
+                  <button id="decripta" style="background: red" class="btn btn-primary-outline text-left btn-sidebar-style" >
+                    <i class="fa fa-database icon-border"></i>Decripta
+                  </button>
+                </li-->
+                <li>
+                  <button id="remove" style="color:#f44336" class="btn btn-primary-outline text-left btn-sidebar-style">
+                      <i class="fa fa-trash icon-border"></i> Elimina selezionati
+                  </button>
+                </li>
+              </ul>
+            </div>
+            <div class="sidebar-menu">
+              <ul>
+                <li class="header-menu" style="margin-top: 15px">
+                  <div class="row" style="margin-left:15px; margin-right: 0px">
+                    <div class="col-8 selected-val">Righe selezionate: </div><div id="selected-rows" class="col-2 selected-val"></div>
+                  </div>
+                </li>
+                <li>
+                    <div class="row" style="margin-left:15px; margin-right: 0px; margin-bottom: 5px">
+                        <div class="col-8 selected-val">Chip selezionati: </div><div id="chip-rows" class="col-2 selected-val"></div>
+                      </div>
+                </li>
+              </ul>
+            </div>
+            <div class="sidebar-menu">
+              <ul>
+                <li>
+                  <button id="credits" style="margin-top: 8px" type="button" class="btn btn-primary-outline text-left btn-sidebar-style">
+                    <i class="fa fa-code icon-border"></i>Credits</button>
+                </li>
+                
+                
+
+                
+
+
+
+
+                <!-- DROPDOWN DI ESEMPIO-->
+                <!--li class="sidebar-dropdown">
+                  <a href="#">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span>E-commerce</span>
+                    <span class="badge badge-pill badge-danger">3</span>
+                  </a>
+                  <div class="sidebar-submenu">
+                    <ul>
+                      <li>
+                        <a href="#">Products
+      
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">Orders</a>
+                      </li>
+                      <li>
+                        <a href="#">Credit cart</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li-->
+            <!-- sidebar-menu  -->
+          </div>
+          <!-- sidebar-content  --> 
+        </nav>
+        <!-- sidebar-wrapper  -->
+        <main class="page-content">
+          <div class="">
+            <div class="scrollable">
+              <table id="table" >
+                <thead>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </main>
+        <!-- page-content" -->
+      </div>
+
+
+
+
+
+<!--MODALS-->
+
+    <!-- Modal aggiungi corridore -->
+<div class="modal fade bd-example-modal-lg" id="add-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Inserisci nuovo utente</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row" style="padding: 1em">
+            <div class="col-lg-6">
+                <label for="cognome">Cognome:</label>
+                <input type="text" class="form-control" id="cognome" placeholder="Cognome">
+            </div>
+            <div class="col-lg-6">
+                <label for="nome">Nome:</label>
+                <input type="text" class="form-control" id="nome" placeholder="Nome">
+            </div>
+          </div>
+          <div class="row" style="padding: 1em">
+            <div class="col-lg-2">
+                <label for="sesso">Sesso:</label>
+                <select class="form-control" id="sesso">
+                    <option>Sel...</option>
+                    <option>M</option>
+                    <option>F</option>
+                </select>
+            </div>
+            <div class="col-lg-4">
+              <label for="data">Data di nascita:</label>
+              <input type="text" class="form-control" id="data" placeholder="GG/MM/AAAA">
+            </div>
+            <div class="col-lg-6">
+              <label for="data">Luogo di nascita:</label>
+              <!--input type="text" class="form-control" id="luogo" placeholder="Luogo di nascita"-->
+              <div class="input-group">
+                  <input type="text" id="comune" placeholder="Comune" class="form-control">
+                  <input type="text" id="prov" placeholder="Prov (sigla)" class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="row" style="padding: 1em">
+
+
+
+
+
+            <div class="col-lg-6">
+              <label for="cf">Codice Fiscale:</label>
+              <!--input type="text" class="form-control" id="cf" placeholder="Codice Fiscale"-->
+              <div class="input-group mb-3">
+                <input type="text" id="cf" class="form-control" placeholder="Codice Fiscale" aria-label="" aria-describedby="basic-addon1">
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-secondary" id="calcola-cf" type="button">Calcola</button>
+                  <button class="btn btn-outline-secondary" id="calcola-cf-info" type="button">?</button>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="col-lg-6">
+              <label for="cf">Codice Tessera:</label>
+              <input type="text" class="form-control" id="tessera" placeholder="Codice Tessera">
+            </div>
+          </div>
+          <div class="row" style="padding: 1em">
+            <div class="col-lg-6">
+              <!--TODO: Aggiungi il suggerimento di una stringa-->
+              <label for="codice-soc">Codice Società:</label>
+              <input type="text" class="form-control" id="codice-soc" default="-" placeholder="Codice Società">
+            </div>
+            <div class="col-lg-6">
+                <label for="nome-soc">Nome della società:</label>
+                <input type="text" class="form-control" id="nome-soc" placeholder="Nome della società">
+            </div>
+          </div>
+          <div class="row" style="padding: 1em">
+            <div class="col-lg-12" id="modal-add-body">
+                <label for="nome-soc">Seleziona squadra: </label>
+                <select class="form-control" id="add-person-select-team" >
+
+                </select>
+            </div>            
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="add-row"><i class="fa fa-plus"></i> Aggiungi</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"> <i class="fa fa-times"></i> Chiudi</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal-title-edit"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="modal-body-edit">
+        </div>
+        <div class="modal-body">
+          <select class="form-control" id="select-edit-team" hidden></select>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+          <button type="button" id="btn-edit" class="btn btn-primary">Salva modifica</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modal-select-team" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-title-team">Seleziona squadra:</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="modal-body-team">
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="btn-team" class="btn btn-primary">Seleziona</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal-add-excel" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Inserire codice e nome della squadra:</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <!--TODO: Aggiungi il suggerimento di una stringa-->
+                  <label for="codice-soc">Codice Società:</label>
+                  <input type="text" class="form-control" id="codice-soc-excel" placeholder="Codice Società">
+                </div>
+                <div class="col-lg-6">
+                    <label for="nome-soc">Nome della società:</label>
+                    <input type="text" class="form-control" id="nome-soc-excel" placeholder="Nome della società">
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+              <button type="button" id="btn-add-excel" class="btn btn-primary">Seleziona</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="modal-credits" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-center" style="margin: 0 auto;">Credits</h5>
+              </div>
+              <div class="modal-body">
+                  <p style="text-align:center">
+                    Versione 2.1.1 <br> 
+                    <a href="https://drive.google.com/open?id=16st27MoAZex4AVO2DjoK36aHucPxfv4IC49IKQ-KI0g" target="_blank" style="font-size: 100%;" class="badge badge-light">Vedi changelog</a>  <br> 
+                    <a href="https://drive.google.com/open?id=1OrPBSRsov1SWR-b7kzMht-pH9HweaH51" target="_blank" style="font-size: 100%;" class="badge badge-light">Controlla aggiornamenti</a> <br>
+                    Data rilascio: 04/05/2019 <br>
+                    Autore: Riccardo Pasteris <br>
+                    Email: <a href="mailto:94paste94@gmail.com" style="font-size: 100%;" class="badge badge-light">94paste94@gmail.com</a> <br>
+                    Progetto sviluppato per conto di UC Cigliano: <a href="http://www.uc-cigliano.it/" target="_blank" style="font-size: 100%;" class="badge badge-light">www.uc-cigliano.it</a> 
+                  </p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--div class="modal fade" id="modal-progress" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title text-center" style="margin: 0 auto;">Caricamento...</h5>
+                </div>
+                <div class="modal-body">
+                  <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+                </div>
+              </div>
+            </div>
+          </div-->
+
+      <script type="text/javascript" src="./js/sidebar.js"></script>      
+      <script type="text/javascript" src="./js/dependencies.js"></script>
+      <script type="text/javascript" src="./js/backup.js"></script>      
+      <script type="text/javascript" src="./js/table-def.js"></script>
+      <script type="text/javascript" src="./js/gui-manager.js"></script>
+      <script type="text/javascript" src="./js/cod-fis.js"></script>
+      <script type="text/javascript" src="./js/btn-listeners.js"></script>
+
+      <!--
+          TODO: cripta password
+          TODO: Salva copia ogni 5 minuti 
+          TODO: Modifica file in output in base al file delle gaer CSAIN
+
+          cp -r ./icons/ ./GestoreGareCSAIN-win32-x64/icons
+      -->
+
+  </body>
+</html>

@@ -1,0 +1,73 @@
+
+tr.selected {
+    background-color: #ffee58;
+}
+
+tr.selected:hover{
+    background-color: #eada49 !important;
+}
+
+tr{
+    transition: 0.5s;
+}
+
+.btn-primary{
+    margin: 0.2em;
+}
+
+.btn-sidebar-style{
+    color:#818896; 
+    width: 100%;
+    border: none;
+}
+
+.btn-sidebar-style:hover{
+    color:#b8bfce; 
+    width: 100%;
+}
+
+.icon-border{
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+.selected-val{
+    color:#818896; 
+}
+
+[type=checkbox]{
+    height: 1.3em;
+    width: 1.3em;
+}
+
+[class=remove]{
+    height: 1.3em;
+    width: 1.3em;
+}
+
+.footer {
+    bottom: 0px;
+    width: 100%  ;
+    height: 60px;
+    line-height: 60px;
+    background-color: #bdbdbd;
+}
+
+.btn-footer-custom{
+    float: right;
+    padding-bottom: 5px;
+}
+
+.centered {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.password-request {
+    background-image: url("../img/login-background.jpg");    
+    background-size: 98em;
+}
