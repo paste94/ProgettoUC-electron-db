@@ -174,7 +174,7 @@ $('#check-from-file').click(function(){
   if(fileName == null){
       return
   }
-
+  /*Parsing del file */
   var totalString = fs.readFileSync(fileName[0]).toString('utf-8');
 
   var support = totalString.split("#INSERT INTO `expanagrafica` (`CodAnagrafica`, `TipoAnagrafica`, `Nome`, `Cognome`, `Sesso`, `DataDiNascita`, `LuogoDiNascita`, `Indirizzo`, `CAP`, `Citta`, `CodProvincia`, `CodStato`, `Telefono`, `Cellulare`, `EMail`, `Attivo`) VALUES");
@@ -200,6 +200,8 @@ $('#check-from-file').click(function(){
     text: 'Caricamento...',
     detail: 'Attendere prego...'
   });
+
+  /** Progressbar */
   progressBar
           .on('completed', function() {
               progressBar.detail = 'Completato';
@@ -207,6 +209,8 @@ $('#check-from-file').click(function(){
           .on('aborted', function() {
               console.info(`Interrotto`);
           });
+  
+  notFound = "!!! ELEMENTI NON TROVATI !!!\n--------------------------------\n\n"
   values.forEach(value=>{
     progressBar.value += 1
     var data = value.split(",");
@@ -214,16 +218,16 @@ $('#check-from-file').click(function(){
     name = name.charAt(0) + name.slice(1).toLowerCase()
     var surname =  data[3].replace(/'/g, '').trim()
     surname = surname.charAt(0) + surname.slice(1).toLowerCase()
-    var strDate = data[5].replace(/'/g, '').trim().split('-')
-    var birth = strDate[2].replace(/^0+/, '') + '/' + strDate[1].replace(/^0+/, '') + '/' + strDate[0]
+    //var strDate = data[5].replace(/'/g, '').trim().split('-')
+    //var birth = strDate[2].replace(/^0+/, '') + '/' + strDate[1].replace(/^0+/, '') + '/' + strDate[0]
 
-    console.log('Cerco -' + name + '- -' +  surname + "- -" + birth + "-")
+    console.log('Cerco -' + name + '- -' +  surname)
+    
 
     db.getRows(dbName, 
       where = {
         'Nome': name,
-        'Cognome': surname,
-        'DataNascita': birth
+        'Cognome': surname
       }, 
       (succ, res)=>{
         if(res != ''){
@@ -236,6 +240,8 @@ $('#check-from-file').click(function(){
             }, (succ, msg)=>{
               console.log(msg)
             })
+        }else{
+          notFound += name + ", " + surname + "\n"
         }
       })
   })
@@ -245,6 +251,20 @@ $('#check-from-file').click(function(){
   }, (succ, result) => {
     $('#selected-rows').html(result.length)
   })
+
+
+  if(notFound.length>0){
+    var newFileName = fileName.toString().replace(/\.txt/, "_not_found.txt")
+    fs.writeFile(newFileName, notFound, (err)=>{
+      if(err){
+        console.log('ERROR: ' + err.message)
+      }else{
+        console.log('File salvato in ' + newFileName)
+      }
+    })
+    shell.openExternal(newFileName)
+
+  }
   $('#table').bootstrapTable('refresh', {'silent': 'true'})
 
 
